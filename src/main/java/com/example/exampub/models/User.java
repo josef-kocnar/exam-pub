@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @Entity
 @Table(name = "users")
 @AllArgsConstructor
@@ -20,4 +22,6 @@ public class User {
     private boolean isActive;
     private boolean isAdult;
     private double pocket;
+    @OneToMany(fetch = FetchType.LAZY)
+    private List<Order> order;
 }

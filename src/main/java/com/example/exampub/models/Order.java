@@ -1,28 +1,27 @@
 package com.example.exampub.models;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.List;
-
 @Entity
-@Table(name = "products")
+@Table(name = "orders")
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
-public class Product {
+public class Order {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    private String productName;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "product_id")
+    private Product product;
+    private long amount;
     private double price;
-    private boolean isForAdult;
-    @JsonIgnore
-    @OneToMany(fetch = FetchType.LAZY)
-    private List<Order> order;
 }
