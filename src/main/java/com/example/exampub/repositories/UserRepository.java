@@ -18,4 +18,8 @@ public class UserRepository {
         Query query = entityManager.createNativeQuery("SELECT * FROM users", User.class);
         return query.getResultList();
     }
+
+    public User getUserById(long id) {
+        return entityManager.find(User.class, id);
+    }
 }

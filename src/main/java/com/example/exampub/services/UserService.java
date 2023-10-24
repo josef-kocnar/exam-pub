@@ -25,5 +25,13 @@ public class UserService {
         return getAllUsersDTOS;
     }
 
+    public User getUserById(Long id) throws Exception{
+        User user = userRepository.getUserById(id);
+        if (user == null) {
+            throw new Exception("User with this id does not exist");
+        } else {
+            return user;
+        }
+    }
 
 }
