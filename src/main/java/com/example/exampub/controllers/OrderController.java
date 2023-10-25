@@ -28,4 +28,14 @@ public class OrderController {
     public ResponseEntity getAllOrders() {
         return ResponseEntity.ok().body(orderService.getAllOrders());
     }
+
+    @GetMapping("summary/product/{productId}")
+    public ResponseEntity getOrdersByProduct(@PathVariable long productId) {
+        try {
+            return ResponseEntity.ok().body(orderService.getOrdersByProduct(productId));
+        } catch (Exception e) {
+            Error error = new Error(e.getMessage());
+            return ResponseEntity.status(400).body(error);
+        }
+    }
 }

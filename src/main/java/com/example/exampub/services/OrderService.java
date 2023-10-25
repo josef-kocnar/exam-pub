@@ -1,6 +1,7 @@
 package com.example.exampub.services;
 
 import com.example.exampub.DTOs.OrderDTOs.GetAllOrdersDTO;
+import com.example.exampub.DTOs.OrderDTOs.GetOrdersByProductDTO;
 import com.example.exampub.DTOs.ProductDTOs.BuyProductDTO;
 import com.example.exampub.models.Order;
 import com.example.exampub.models.Product;
@@ -66,6 +67,7 @@ public class OrderService {
         List<Order> orders = orderRepository.getAllOrders();
         List<GetAllOrdersDTO> getAllOrdersDTOS = new ArrayList<>();
         HashMap<Long, Long> orderMap = new HashMap<>();
+
         for (Order order : orders) {
             long productId = order.getProduct().getId();
             if (orderMap.containsKey(productId)) {
@@ -82,5 +84,33 @@ public class OrderService {
         }
 
         return getAllOrdersDTOS;
+    }
+
+    public List<GetOrdersByProductDTO> getOrdersByProduct(long productId) throws Exception{
+        Product product = productRepository.getProductById(productId);
+        if (product == null) {
+            throw new Exception("Invalid product ID");
+        }
+
+        List<Order> orders = orderRepository.getOrdersByProduct(productId);
+        List<GetOrdersByProductDTO> getOrdersByProductDTOS = new ArrayList<>();
+        HashMap<Long, Long> orderMap = new HashMap<>();
+
+        for (Order order : orders) {
+            long userId = order.getUser().getId();
+            if (orderMap.containsKey(userId)) {
+                orderMap.put(userId, orderMap.get(userId)+1);
+            } else {
+                orderMap.put(userId, (long) 1);
+            }
+        }
+
+        for (Map.Entry<Long, Long> entry : orderMap.entrySet()) {
+            User user = userRepository.getUserById(entry.getKey());
+            GetOrdersByProductDTO getOrdersByProductDTO = new GetOrdersByProductDTO(user.getId(), entry.getValue(), product.getPrice() * entry.getValue());
+            getOrdersByProductDTOS.add(getOrdersByProductDTO);
+        }
+
+        return getOrdersByProductDTOS;
     }
 }
