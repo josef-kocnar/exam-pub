@@ -45,6 +45,7 @@ public class OrderService {
         Order order = new Order();
         order.setUser(user);
         order.setProduct(product);
+        order.setName(product.getProductName());
         order.setAmount((long) (buyProductDTO.getPrice() / product.getPrice()));
         order.setPrice(buyProductDTO.getPrice());
         orderRepository.addNewOrder(order);

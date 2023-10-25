@@ -22,7 +22,6 @@ public class Product {
     private String productName;
     private double price;
     private boolean isForAdult;
-    @JsonIgnore
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "product")
     private List<Order> orders;
 }
