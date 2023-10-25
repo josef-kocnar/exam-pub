@@ -22,4 +22,14 @@ public class UserRepository {
     public User getUserById(long id) {
         return entityManager.find(User.class, id);
     }
+
+    public User findByUsername(String username) {
+        Query query = entityManager.createNativeQuery("SELECT * FROM users WHERE username = :username", User.class);
+        query.setParameter("username", username);
+        if(query.getResultList().isEmpty()){
+            return null;
+        } else {
+            return (User) query.getResultList().get(0);
+        }
+    }
 }

@@ -1,6 +1,7 @@
 package com.example.exampub.services;
 
 import com.example.exampub.DTOs.UserDTOs.GetAllUsersDTO;
+import com.example.exampub.DTOs.UserDTOs.GetUserByIdDTO;
 import com.example.exampub.models.User;
 import com.example.exampub.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,12 +26,13 @@ public class UserService {
         return getAllUsersDTOS;
     }
 
-    public User getUserById(Long id) throws Exception{
+    public GetUserByIdDTO getUserById(Long id) throws Exception{
         User user = userRepository.getUserById(id);
         if (user == null) {
             throw new Exception("User with this id does not exist");
         } else {
-            return user;
+            GetUserByIdDTO getUserByIdDTO = new GetUserByIdDTO(user.getId(), user.getName(), user.isActive(), user.isAdult(), user.getPocket(), user.getOrder());
+            return getUserByIdDTO;
         }
     }
 
