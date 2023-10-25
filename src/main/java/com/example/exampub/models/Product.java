@@ -23,6 +23,6 @@ public class Product {
     private double price;
     private boolean isForAdult;
     @JsonIgnore
-    @OneToMany(fetch = FetchType.LAZY)
-    private List<Order> order;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "product")
+    private List<Order> orders;
 }

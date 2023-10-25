@@ -31,7 +31,7 @@ public class UserService {
         if (user == null) {
             throw new Exception("User with this id does not exist");
         } else {
-            GetUserByIdDTO getUserByIdDTO = new GetUserByIdDTO(user.getId(), user.getName(), user.isActive(), user.isAdult(), user.getPocket(), user.getOrder());
+            GetUserByIdDTO getUserByIdDTO = new GetUserByIdDTO(user.getId(), user.getName(), user.isActive(), user.isAdult(), user.getPocket(), user.getOrders());
             return getUserByIdDTO;
         }
     }

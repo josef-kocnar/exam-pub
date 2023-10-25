@@ -25,6 +25,6 @@ public class User {
     private boolean isActive;
     private boolean isAdult;
     private double pocket;
-    @OneToMany(fetch = FetchType.LAZY)
-    private List<Order> order;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "user")
+    private List<Order> orders;
 }

@@ -19,4 +19,8 @@ public class ProductRepository {
         Query query = entityManager.createNativeQuery("SELECT * FROM products", Product.class);
         return query.getResultList();
     }
+
+    public Product getProductById(long id) {
+        return entityManager.find(Product.class, id);
+    }
 }
