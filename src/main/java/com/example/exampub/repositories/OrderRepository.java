@@ -30,4 +30,10 @@ public class OrderRepository {
         query.setParameter("productId", productId);
         return query.getResultList();
     }
+
+    public List<Order> getOrdersByUser(long userId) {
+        Query query = entityManager.createNativeQuery("SELECT * FROM orders WHERE user_id = :userId", Order.class);
+        query.setParameter("userId", userId);
+        return query.getResultList();
+    }
 }

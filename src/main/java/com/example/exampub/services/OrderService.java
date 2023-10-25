@@ -2,6 +2,7 @@ package com.example.exampub.services;
 
 import com.example.exampub.DTOs.OrderDTOs.GetAllOrdersDTO;
 import com.example.exampub.DTOs.OrderDTOs.GetOrdersByProductDTO;
+import com.example.exampub.DTOs.OrderDTOs.GetOrdersByUserDTO;
 import com.example.exampub.DTOs.ProductDTOs.BuyProductDTO;
 import com.example.exampub.models.Order;
 import com.example.exampub.models.Product;
@@ -47,7 +48,7 @@ public class OrderService {
         if (buyProductDTO.getPrice() > user.getPocket()) {
             throw new Exception("Insufficient funds");
         }
-        if (buyProductDTO.getPrice() < product.getPrice()) {
+        if (buyProductDTO.getPrice() < product.getPrice() || buyProductDTO.getPrice() % product.getPrice() != 0) {
             throw new Exception("Incorrect price");
         }
 
@@ -112,5 +113,33 @@ public class OrderService {
         }
 
         return getOrdersByProductDTOS;
+    }
+
+    public List<GetOrdersByUserDTO> getOrdersByUser(long userId) throws Exception{
+        User user = userRepository.getUserById(userId);
+        if (user == null) {
+            throw new Exception("Invalid user ID");
+        }
+
+        List<Order> orders = orderRepository.getOrdersByUser(userId);
+        List<GetOrdersByUserDTO> getOrdersByUserDTOS = new ArrayList<>();
+        HashMap<Long, Long> orderMap = new HashMap<>();
+
+        for (Order order : orders) {
+            long productId = order.getProduct().getId();
+            if (orderMap.containsKey(productId)) {
+                orderMap.put(productId, orderMap.get(productId)+1);
+            } else {
+                orderMap.put(productId, (long) 1);
+            }
+        }
+
+        for(Map.Entry<Long, Long> entry : orderMap.entrySet()) {
+            Product product = productRepository.getProductById(entry.getKey());
+            GetOrdersByUserDTO getOrdersByUserDTO = new GetOrdersByUserDTO(userId, product.getProductName(), entry.getValue() * product.getPrice());
+            getOrdersByUserDTOS.add(getOrdersByUserDTO);
+        }
+
+        return getOrdersByUserDTOS;
     }
 }

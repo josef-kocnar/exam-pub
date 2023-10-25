@@ -38,4 +38,14 @@ public class OrderController {
             return ResponseEntity.status(400).body(error);
         }
     }
+
+    @GetMapping("summary/user/{userId}")
+    public ResponseEntity getOrdersByUser(@PathVariable long userId) {
+        try {
+            return ResponseEntity.ok().body(orderService.getOrdersByUser(userId));
+        } catch (Exception e) {
+            Error error = new Error(e.getMessage());
+            return ResponseEntity.status(400).body(error);
+        }
+    }
 }

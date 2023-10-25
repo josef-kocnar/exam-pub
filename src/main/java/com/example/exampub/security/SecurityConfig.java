@@ -35,8 +35,8 @@ public class SecurityConfig {
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> auth
                         .requestMatchers("/users", "/users/**", "/drink-menu").permitAll()
-                        .requestMatchers("/buy").hasAuthority("USER")
-                        .requestMatchers("/summary", "summary/**").hasAuthority("ADMIN")
+                        .requestMatchers("/buy").hasAuthority("CUSTOMER")
+                        .requestMatchers("/summary", "summary/**").hasAuthority("BARTENDER")
                         .anyRequest().authenticated())
                 .httpBasic(Customizer.withDefaults())
                 .formLogin(Customizer.withDefaults())
