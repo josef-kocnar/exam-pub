@@ -1,14 +1,14 @@
 package com.example.exampub.repositories;
 
-import com.example.exampub.DTOs.OrderDTOs.BuyProductDTO;
 import com.example.exampub.models.Order;
-import com.example.exampub.models.Product;
 import com.example.exampub.models.User;
-import com.example.exampub.security.CustomUserDetails;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.Query;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Repository
 public class OrderRepository {
@@ -19,5 +19,10 @@ public class OrderRepository {
     @Transactional
     public void addNewOrder(Order order) {
         entityManager.merge(order);
+    }
+
+    public List<Order> getAllOrders() {
+        Query query = entityManager.createNativeQuery("SELECT * FROM orders", Order.class);
+        return query.getResultList();
     }
 }

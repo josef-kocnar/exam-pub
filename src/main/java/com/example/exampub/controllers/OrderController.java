@@ -1,6 +1,6 @@
 package com.example.exampub.controllers;
 
-import com.example.exampub.DTOs.OrderDTOs.BuyProductDTO;
+import com.example.exampub.DTOs.ProductDTOs.BuyProductDTO;
 import com.example.exampub.exceptions.Error;
 import com.example.exampub.services.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,5 +22,10 @@ public class OrderController {
             Error error = new Error(e.getMessage());
             return ResponseEntity.status(400).body(error);
         }
+    }
+
+    @GetMapping("/summary/all")
+    public ResponseEntity getAllOrders() {
+        return ResponseEntity.ok().body(orderService.getAllOrders());
     }
 }

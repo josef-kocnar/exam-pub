@@ -1,6 +1,7 @@
 package com.example.exampub.services;
 
-import com.example.exampub.DTOs.OrderDTOs.BuyProductDTO;
+import com.example.exampub.DTOs.OrderDTOs.GetAllOrdersDTO;
+import com.example.exampub.DTOs.ProductDTOs.BuyProductDTO;
 import com.example.exampub.models.Order;
 import com.example.exampub.models.Product;
 import com.example.exampub.models.User;
@@ -9,6 +10,11 @@ import com.example.exampub.repositories.ProductRepository;
 import com.example.exampub.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Service
 public class OrderService {
@@ -27,7 +33,6 @@ public class OrderService {
 
         User user = userRepository.getUserById(buyProductDTO.getUserId());
         Product product = productRepository.getProductById(buyProductDTO.getProductId());
-        System.out.println(user.isAdult());
 
         if (user == null) {
             throw new Exception("Invalid user ID");
@@ -41,6 +46,9 @@ public class OrderService {
         if (buyProductDTO.getPrice() > user.getPocket()) {
             throw new Exception("Insufficient funds");
         }
+        if (buyProductDTO.getPrice() < product.getPrice()) {
+            throw new Exception("Incorrect price");
+        }
 
         Order order = new Order();
         order.setUser(user);
@@ -52,5 +60,27 @@ public class OrderService {
 
         user.setPocket(user.getPocket()-order.getPrice());
         userRepository.updateUser(user);
+    }
+
+    public List<GetAllOrdersDTO> getAllOrders() {
+        List<Order> orders = orderRepository.getAllOrders();
+        List<GetAllOrdersDTO> getAllOrdersDTOS = new ArrayList<>();
+        HashMap<Long, Long> orderMap = new HashMap<>();
+        for (Order order : orders) {
+            long productId = order.getProduct().getId();
+            if (orderMap.containsKey(productId)) {
+                orderMap.put(productId, orderMap.get(productId)+1);
+            } else {
+                orderMap.put(productId, (long) 1);
+            }
+        }
+
+        for(Map.Entry<Long, Long> entry : orderMap.entrySet()) {
+            Product product = productRepository.getProductById(entry.getKey());
+            GetAllOrdersDTO getAllOrdersDTO = new GetAllOrdersDTO(product.getProductName(),entry.getValue(), product.getPrice(), entry.getValue() * product.getPrice());
+            getAllOrdersDTOS.add(getAllOrdersDTO);
+        }
+
+        return getAllOrdersDTOS;
     }
 }

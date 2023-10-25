@@ -1,4 +1,4 @@
-package com.example.exampub.DTOs.OrderDTOs;
+package com.example.exampub.DTOs.ProductDTOs;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
