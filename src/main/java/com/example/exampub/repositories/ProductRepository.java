@@ -1,7 +1,6 @@
 package com.example.exampub.repositories;
 
 import com.example.exampub.models.Product;
-import com.example.exampub.models.User;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.Query;
