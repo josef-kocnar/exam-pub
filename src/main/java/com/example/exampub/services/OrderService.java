@@ -4,6 +4,8 @@ import com.example.exampub.DTOs.OrderDTOs.GetAllOrdersDTO;
 import com.example.exampub.DTOs.OrderDTOs.GetOrdersByProductDTO;
 import com.example.exampub.DTOs.OrderDTOs.GetOrdersByUserDTO;
 import com.example.exampub.DTOs.ProductDTOs.BuyProductDTO;
+import com.example.exampub.DTOs.ProductDTOs.GetAllProductOrdersDTO;
+import com.example.exampub.DTOs.UserDTOs.GetAllUserOrdersDTO;
 import com.example.exampub.models.Order;
 import com.example.exampub.models.Product;
 import com.example.exampub.models.User;
@@ -87,12 +89,28 @@ public class OrderService {
         return getAllOrdersDTOS;
     }
 
-    public List<GetOrdersByProductDTO> getOrdersByProduct(long productId) throws Exception{
-        Product product = productRepository.getProductById(productId);
-        if (product == null) {
-            throw new Exception("Invalid product ID");
+    public List<GetAllProductOrdersDTO> getAllProductOrders() {
+        List<Product> products = productRepository.getAllProducts();
+        List<GetAllProductOrdersDTO> getAllProductOrderDTOS = new ArrayList<>();
+        for (Product product : products) {
+            GetAllProductOrdersDTO getAllProductOrdersDTO = new GetAllProductOrdersDTO(product.getId(), product.getProductName(), getOrdersByProduct(product.getId()));
+            getAllProductOrderDTOS.add(getAllProductOrdersDTO);
         }
+        return getAllProductOrderDTOS;
+    }
 
+    public List<GetAllUserOrdersDTO> getAllUserOrders() {
+        List<User> users = userRepository.getAllUsers();
+        List<GetAllUserOrdersDTO> getAllUserOrdersDTOS = new ArrayList<>();
+        for (User user : users) {
+            GetAllUserOrdersDTO getAllUserOrdersDTO = new GetAllUserOrdersDTO(user.getId(), user.getName(), getOrdersByUser(user.getId()));
+            getAllUserOrdersDTOS.add(getAllUserOrdersDTO);
+        }
+        return getAllUserOrdersDTOS;
+    }
+
+    public List<GetOrdersByProductDTO> getOrdersByProduct(long productId) {
+        Product product = productRepository.getProductById(productId);
         List<Order> orders = orderRepository.getOrdersByProduct(productId);
         List<GetOrdersByProductDTO> getOrdersByProductDTOS = new ArrayList<>();
         HashMap<Long, Long> orderMap = new HashMap<>();
@@ -115,12 +133,7 @@ public class OrderService {
         return getOrdersByProductDTOS;
     }
 
-    public List<GetOrdersByUserDTO> getOrdersByUser(long userId) throws Exception{
-        User user = userRepository.getUserById(userId);
-        if (user == null) {
-            throw new Exception("Invalid user ID");
-        }
-
+    public List<GetOrdersByUserDTO> getOrdersByUser(long userId) {
         List<Order> orders = orderRepository.getOrdersByUser(userId);
         List<GetOrdersByUserDTO> getOrdersByUserDTOS = new ArrayList<>();
         HashMap<Long, Long> orderMap = new HashMap<>();
@@ -136,7 +149,7 @@ public class OrderService {
 
         for(Map.Entry<Long, Long> entry : orderMap.entrySet()) {
             Product product = productRepository.getProductById(entry.getKey());
-            GetOrdersByUserDTO getOrdersByUserDTO = new GetOrdersByUserDTO(userId, product.getProductName(), entry.getValue() * product.getPrice());
+            GetOrdersByUserDTO getOrdersByUserDTO = new GetOrdersByUserDTO(product.getId(), product.getProductName(), entry.getValue() * product.getPrice());
             getOrdersByUserDTOS.add(getOrdersByUserDTO);
         }
 

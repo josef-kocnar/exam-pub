@@ -29,23 +29,14 @@ public class OrderController {
         return ResponseEntity.ok().body(orderService.getAllOrders());
     }
 
-    @GetMapping("summary/product/{productId}")
-    public ResponseEntity getOrdersByProduct(@PathVariable long productId) {
-        try {
-            return ResponseEntity.ok().body(orderService.getOrdersByProduct(productId));
-        } catch (Exception e) {
-            Error error = new Error(e.getMessage());
-            return ResponseEntity.status(400).body(error);
-        }
+    @GetMapping("/summary/product")
+    public ResponseEntity getAllProductOrders() {
+        return ResponseEntity.ok().body(orderService.getAllProductOrders());
     }
 
-    @GetMapping("summary/user/{userId}")
-    public ResponseEntity getOrdersByUser(@PathVariable long userId) {
-        try {
-            return ResponseEntity.ok().body(orderService.getOrdersByUser(userId));
-        } catch (Exception e) {
-            Error error = new Error(e.getMessage());
-            return ResponseEntity.status(400).body(error);
-        }
+    @GetMapping("/summary/user")
+    public ResponseEntity getAllUserOrders() {
+        return ResponseEntity.ok().body(orderService.getAllUserOrders());
     }
+
 }

@@ -8,7 +8,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class GetOrdersByUserDTO {
-    private long userId;
+    private long productId;
     private String product;
     private double price;
 }
