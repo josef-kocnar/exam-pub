@@ -13,12 +13,12 @@
 
 **Struktura api:**
 1.	GET /users
-    Vraci vsechny objekty User s atributy:
-    a.	Id
-    b.	Name
-    c.	IsActive
-    d.	IsAdult
-    e.	Pocket
+    - Vraci vsechny objekty User s atributy:
+        - Id
+        - Name
+        - IsActive
+        - IsAdult
+        - Pocket
   	
 3.	GET /users/{id}
     Vraci User s danym id a jeho objednavky:
