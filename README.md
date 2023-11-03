@@ -8,7 +8,7 @@
 6.	Využití angličtiny v db návrhu i v kódu
 7.	Basic auth
     Přihlášení pro uživatele, kteří mohou objednávat
-    Účet výčepního, který uvidí jen statistiky
+  	Účet výčepního, který uvidí jen statistiky
 
 
 **Struktura api:**
