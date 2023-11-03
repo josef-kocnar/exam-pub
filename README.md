@@ -13,14 +13,15 @@
 
 **Struktura api:**
 1.	GET /users
-Vraci vsechny objekty User s atributy:
+    Vraci vsechny objekty User s atributy:
     a.	Id
     b.	Name
     c.	IsActive
     d.	IsAdult
     e.	Pocket
+  	
 3.	GET /users/{id}
-Vraci User s danym id a jeho objednavky:
+    Vraci User s danym id a jeho objednavky:
     a.	Id
     b.	Name
     c.	IsActive
@@ -31,14 +32,15 @@ Vraci User s danym id a jeho objednavky:
         ii.	ProductName
         iii.	Amount
         iv.	Price
-4.	GET /drink-menu
-Vraci napojovy listek, drinky maji tyto atributy:
+  	
+5.	GET /drink-menu
+    Vraci napojovy listek, drinky maji tyto atributy:
     a.	Id
     b.	ProductName
     c.	Price
     d.	IsForAdult
 
-5.	POST /buy //Validace zdali je uživatel plnoletý a zdali má dostatek financí v peněžence
+6.	POST /buy //Validace zdali je uživatel plnoletý a zdali má dostatek financí v peněžence
     a.	UserId
     b.	ProductId
     c.	Price
