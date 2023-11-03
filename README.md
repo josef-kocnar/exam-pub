@@ -7,8 +7,8 @@
 5.	Návrh MVC
 6.	Využití angličtiny v db návrhu i v kódu
 7.	Basic auth
-    a.	Přihlášení pro uživatele, kteří mohou objednávat
-    b.	Účet výčepního, který uvidí jen statistiky
+    Přihlášení pro uživatele, kteří mohou objednávat
+    Účet výčepního, který uvidí jen statistiky
 
 
 **Struktura api:**
